@@ -14,4 +14,8 @@ public:
     ~DynamicArray();
     void set(size_t index, int value);
     int get(size_t index) const;
+    DynamicArray(const DynamicArray& other);
+    void push_back(int value);
+    void add(const DynamicArray& other);
+    void sub(const DynamicArray& other);
 };
