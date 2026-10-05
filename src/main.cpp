@@ -1,6 +1,9 @@
 #include "DynamicArray.h"
+#include <new>
 
 int main(){
+
+    cout << "PART 1" << endl << endl;
     DynamicArray arr(5);
     cout << "Test ex 1" << endl;
     cout << "Begin: ";
@@ -123,6 +126,29 @@ int main(){
     cout << "arrA2 Last: ";
     arrA2.sub(arrB2);
     arrA2.print();
+    //
+    //
+    //
+    cout << "PART 2" << endl << endl;
 
+    try{
+        DynamicArray temp(2);
+        temp.set(3, 5);
+    }catch(out_of_range& e){
+        cout << e.what() << endl;
+    }
+
+    try{
+        DynamicArray temp(2);
+        temp.set(0, 6767);
+    }catch(invalid_argument& e){
+        cout << e.what() << endl;
+    }
+
+    try{
+        DynamicArray huge(-1);
+    }catch(bad_alloc& e){
+        cout << e.what() << endl;
+    }
     return 0;
 }
