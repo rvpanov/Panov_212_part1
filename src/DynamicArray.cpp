@@ -9,6 +9,7 @@ void DynamicArray::print() const{
 
 DynamicArray::DynamicArray(size_t n){
     size = n;
+    capacity = n;
     data = new int[size];
 
 }
@@ -39,7 +40,8 @@ int DynamicArray::get(size_t index) const{
 
 DynamicArray::DynamicArray(const DynamicArray& other){
     size = other.size;
-    data = new int[size];
+    capacity = other.capacity;
+    data = new int[capacity];
     for(size_t i = 0; i < size; i++){
         data[i] = other.data[i];
     }
@@ -49,15 +51,20 @@ void DynamicArray::push_back(int value){
     if(value < -100 || value > 100){
         throw invalid_argument("Value Error!");
     }
-    size_t new_size = size + 1;
-    int* new_data = new int[new_size];
+    if(size == capacity){
+        capacity = capacity*2;
+        if(capacity == 0){
+            capacity = 1;
+        }
+    int* new_data = new int[capacity]();
     for(size_t i = 0; i < size; i++){
         new_data[i] = data[i];
-    }
-    new_data[size] = value;
+        }
     delete[] data;
     data = new_data;
-    size = new_size;
+    }
+    data[size] = value;
+    size++;
 }
 
 void DynamicArray::add(const DynamicArray& other){
