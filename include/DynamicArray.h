@@ -8,6 +8,7 @@ class DynamicArray{
 private:
     int* data;
     size_t size;
+    size_t capacity
 public:
     void print() const; 
     DynamicArray(size_t n);
