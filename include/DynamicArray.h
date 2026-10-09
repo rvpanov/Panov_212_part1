@@ -13,9 +13,10 @@ class DynamicArray{
 private:
     T* data;
     size_t size;
+    size_t capacity
 public:
-    DynamicArray(size_t n) : size(n){ 
-    data = new T[size]();
+    DynamicArray(size_t n) : size(n), capacity(n){ 
+    data = new T[capacity]();
     }
 
     ~DynamicArray(){
@@ -23,8 +24,8 @@ public:
         cout << "67.";
     }
 
-    DynamicArray(const DynamicArray& other) : size(other.size){
-        data = new T[size]();
+    DynamicArray(const DynamicArray& other) : size(other.size), capacity(other.capacity){
+        data = new T[capacity]();
         for(size_t i = 0; i < size; i++){
             data[i] = other.data[i];
         }
@@ -49,22 +50,24 @@ public:
         return data[index];
     }
 
-    void push_back(T value){
-        if constexpr(is_integral_v<T>){
-            if(value < -100 || value > 100){
+    void push_back(T value) {
+        if constexpr (is_integral_v<T>) {
+            if (value < -100 || value > 100) {
                 throw invalid_argument("Value Error!");
             }
         }
-        size_t new_size = size + 1;
-        T* new_data = new T[new_size];
-        for(size_t i = 0; i < size; i++){
-            new_data[i] = data[i];
+        if (size == capacity) {
+            capacity = (capacity == 0) ? 1 : capacity * 2;
+            T* new_data = new T[capacity]();  
+            for (size_t i = 0; i < size; i++) {
+                new_data[i] = data[i];
+            }
+            delete[] data;
+            data = new_data;
         }
-        new_data[size] = value;
-        size = new_size;
-        delete[] data;
-        data = new_data;
-        size = new_size;
+        
+        data[size] = value;
+        size++;
     }
 
     void add(const DynamicArray& other){
